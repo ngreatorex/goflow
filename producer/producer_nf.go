@@ -159,13 +159,13 @@ func ConvertNetFlowDataSet(version uint16, baseTime uint32, uptime uint32, recor
 
 		// Statistics
 		case netflow.NFV9_FIELD_IN_BYTES:
-			DecodeUNumber(v, &(flowMessage.Bytes))
+			DecodeUNumber(v, &(flowMessage.InBytes))
 		case netflow.NFV9_FIELD_IN_PKTS:
-			DecodeUNumber(v, &(flowMessage.Packets))
+			DecodeUNumber(v, &(flowMessage.InPackets))
 		case netflow.NFV9_FIELD_OUT_BYTES:
-			DecodeUNumber(v, &(flowMessage.Bytes))
+			DecodeUNumber(v, &(flowMessage.OutBytes))
 		case netflow.NFV9_FIELD_OUT_PKTS:
-			DecodeUNumber(v, &(flowMessage.Packets))
+			DecodeUNumber(v, &(flowMessage.OutPackets))
 
 		// L4
 		case netflow.NFV9_FIELD_L4_SRC_PORT:
@@ -332,6 +332,19 @@ func ConvertNetFlowDataSet(version uint16, baseTime uint32, uptime uint32, recor
 			}
 		}
 
+	}
+
+	if flowMessage.InBytes > 0 {
+		flowMessage.Bytes = flowMessage.InBytes
+	}
+	if flowMessage.InPackets > 0 {
+		flowMessage.Packets = flowMessage.InPackets
+	}
+	if flowMessage.OutBytes > 0 {
+		flowMessage.Bytes = flowMessage.OutBytes
+	}
+	if flowMessage.OutPackets > 0 {
+		flowMessage.Packets = flowMessage.OutPackets
 	}
 
 	return flowMessage
